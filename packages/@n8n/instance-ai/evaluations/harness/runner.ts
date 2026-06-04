@@ -299,7 +299,8 @@ function isMultiTurnConversation(conversation: ConversationTurn[]): boolean {
 export async function buildWorkflow(config: BuildWorkflowConfig): Promise<BuildResult> {
 	const { client, conversation, logger } = config;
 	const openingMessage = conversation[0]?.text ?? '';
-	const threadId = `eval-${crypto.randomUUID()}`;
+	// Server validates threadId as a bare UUID (POST /rest/instance-ai/threads).
+	const threadId = crypto.randomUUID();
 	const startTime = Date.now();
 	const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
