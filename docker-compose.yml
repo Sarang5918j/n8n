@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: always
+    environment:
+      - PDF_CONVERTER_URL=http://pdf_converter:8000
+    depends_on:
+      - pdf_converter
+
+  pdf_converter:
+    build:
+      context: ./pdf_converter
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: always
+
+volumes:
+  n8n_data:
